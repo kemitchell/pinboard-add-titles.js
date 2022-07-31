@@ -1,0 +1,17 @@
+{
+  "name": "pinboard-add-titles",
+  "version": "0.0.0",
+  "description": "replace URLs in descriptions of Pinboard bookmarks with HTML page titles",
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "bin": "./bin.js",
+  "repository": "kemitchell/pinboard-add-titles.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "flush-write-stream": "^2.0.0",
+    "http-https": "^1.0.0",
+    "json-array-streams": "^1.0.1",
+    "multistream": "^4.1.0",
+    "pump": "^3.0.0",
+    "through2": "^4.0.2"
+  }
+}
