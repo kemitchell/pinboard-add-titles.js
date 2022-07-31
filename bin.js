@@ -15,6 +15,9 @@ if (!TOKEN) {
   process.exit(1)
 }
 
+const argument = parseInt(process.argv[2])
+const LIMIT = Number.isInteger(argument) && argument > 0 ? argument : Infinity
+
 const PINBOARD_API = 'api.pinboard.in'
 
 const RESULTS_PER_REQUEST = 100
@@ -22,6 +25,7 @@ let requestCount = 0
 // In order to tell when to stop issuing new requests with incremented
 // `start` positions, count the number of posts from each response.
 let postsFromLastStream = null
+let totalPosts = 0
 
 // Request all of the Pinboard user's posts in JSON format.
 pump(
@@ -54,7 +58,12 @@ pump(
 
   // Filter out only those posts with short-URL HREFs.
   through2.obj(function (post, _, done) {
+    totalPosts++
     postsFromLastStream++
+    if (totalPosts > LIMIT) {
+      postsFromLastStream = 0
+      return done()
+    }
     if (post.href === post.description) this.push(post)
     done()
   }),
