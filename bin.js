@@ -139,14 +139,20 @@ function replacePost (post, title, callback) {
 function sendRequest (options, callback) {
   options.protocol = 'https:'
   options.host = PINBOARD_API
+  let calledBack = false
+  function done (error) {
+    if (calledBack) return
+    calledBack = true
+    callback(error)
+  }
   http.request(options)
-    .once('error', callback)
+    .once('error', done)
     .once('response', response => {
       const status = response.statusCode
       if (status === 200) {
-        callback()
+        done()
       } else {
-        callback(new Error('The server responded ' + status + '.'))
+        done(new Error('The server responded ' + status + '.'))
       }
     })
     .end()
