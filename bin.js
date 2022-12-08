@@ -95,24 +95,28 @@ pump(
 
 function findPageTitle (url, callback) {
   const { protocol, host, pathname } = new URL(url)
+  let calledBack = false
+  function done (error) {
+    if (calledBack) return
+    calledBack = true
+    callback(error)
+  }
   http.request({
     method: 'GET',
     protocol,
     host,
     path: pathname
   })
-    .once('error', callback)
+    .once('error', done)
     .once('response', response => {
       const chunks = []
       response
         .on('data', chunk => { chunks.push(chunk) })
-        .once('error', error => {
-          return callback(error)
-        })
+        .once('error', done)
         .once('end', () => {
           const html = Buffer.concat(chunks).toString()
           const $ = cheerio.load(html)
-          callback(null, $('title').text())
+          done(null, $('title').text())
         })
     })
     .end()
