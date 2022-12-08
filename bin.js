@@ -4,6 +4,7 @@ const cheerio = require('cheerio')
 const flushWriteStream = require('flush-write-stream')
 const http = require('http-https')
 const jsonArrayStreams = require('json-array-streams')
+const once = require('once')
 const pump = require('pump')
 const querystring = require('querystring')
 const through2 = require('through2')
@@ -96,11 +97,7 @@ pump(
 function findPageTitle (url, callback) {
   const { protocol, host, pathname } = new URL(url)
   let calledBack = false
-  function done (error) {
-    if (calledBack) return
-    calledBack = true
-    callback(error)
-  }
+  const done = once(callback)
   http.request({
     method: 'GET',
     protocol,
@@ -143,12 +140,7 @@ function replacePost (post, title, callback) {
 function sendRequest (options, callback) {
   options.protocol = 'https:'
   options.host = PINBOARD_API
-  let calledBack = false
-  function done (error) {
-    if (calledBack) return
-    calledBack = true
-    callback(error)
-  }
+  const done = once(done)
   http.request(options)
     .once('error', done)
     .once('response', response => {
