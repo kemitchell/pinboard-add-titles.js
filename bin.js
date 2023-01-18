@@ -65,7 +65,12 @@ pump(
       postsFromLastStream = 0
       return done()
     }
-    if (post.href === post.description) this.push(post)
+    if (
+      post.href === post.description ||
+      post.description === '[no title]'
+    ) {
+      this.push(post)
+    }
     done()
   }),
 
