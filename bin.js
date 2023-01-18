@@ -76,17 +76,16 @@ pump(
 
   // For each short-URL post:
   flushWriteStream.obj((post, _, done) => {
-    console.log(post)
     findPageTitle(post.href, (error, title) => {
       if (error) {
-        console.error(`Error fetching ${post.url}: ${error.toString()}`)
+        console.error(`Error fetching ${post.href}: ${error.toString()}`)
         return done()
       }
       if (!title) {
-        console.error(`No title found for ${post.url}.`)
+        console.error(`No title found for ${post.href}.`)
         return done()
       }
-      console.log(`Title of ${post.url} is "${title}".`)
+      console.log(`Title of ${post.href} is "${title}".`)
       replacePost(post, title, done)
     })
   }),
