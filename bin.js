@@ -101,7 +101,6 @@ pump(
 
 function findPageTitle (url, callback) {
   const { protocol, host, pathname } = new URL(url)
-  let calledBack = false
   const done = once(callback)
   http.request({
     method: 'GET',
@@ -145,7 +144,7 @@ function replacePost (post, title, callback) {
 function sendRequest (options, callback) {
   options.protocol = 'https:'
   options.host = PINBOARD_API
-  const done = once(done)
+  const done = once(callback)
   http.request(options)
     .once('error', done)
     .once('response', response => {
