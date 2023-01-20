@@ -99,14 +99,8 @@ pump(
 )
 
 function findPageTitle (url, callback) {
-  const { protocol, host, pathname } = new URL(url)
   const done = once(callback)
-  http.request({
-    method: 'GET',
-    protocol,
-    host,
-    path: pathname
-  })
+  http.request(url)
     .once('error', done)
     .once('response', response => {
       const chunks = []
