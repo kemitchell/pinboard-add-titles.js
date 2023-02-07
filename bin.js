@@ -57,7 +57,7 @@ pump(
   // Each Object in the Array is a post.
   jsonArrayStreams.parse(),
 
-  // Filter out only those posts with short-URL HREFs.
+  // Filter only those posts without titles.
   through2.obj(function (post, _, done) {
     totalPosts++
     postsFromLastStream++
@@ -69,6 +69,7 @@ pump(
       post.href === post.description ||
       post.description === '[no title]'
     ) {
+      if (post.href.endsWith('.pdf')) return done()
       this.push(post)
     }
     done()
