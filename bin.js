@@ -100,7 +100,12 @@ pump(
 
 function findPageTitle (url, callback) {
   const done = once(callback)
-  http.request(url)
+  http.request(url, {
+    headers: {
+      Accept: 'text/html',
+      timeout: 3000
+    }
+  })
     .once('error', done)
     .once('response', response => {
       const chunks = []
