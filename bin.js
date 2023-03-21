@@ -131,6 +131,9 @@ function replacePost (post, title, callback) {
     auth_token: TOKEN,
     dt: post.time,
     url: post.href,
+    toread: post.toread,
+    shared: post.shared,
+    tags: post.tags,
     replace: 'yes'
   }
   for (const key of POST_PROPERTIES) query[key] = post[key]
