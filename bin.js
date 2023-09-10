@@ -78,6 +78,7 @@ pump(
 
   // For each short-URL post:
   flushWriteStream.obj((post, _, done) => {
+    console.log(`Fetching Title for ${post.href}.`)
     findPageTitle(post.href, (error, title) => {
       if (error) {
         console.error(`Error fetching ${post.href}: ${error.toString()}`)
