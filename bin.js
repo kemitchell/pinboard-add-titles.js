@@ -18,6 +18,7 @@ if (!TOKEN) {
 
 const argument = parseInt(process.argv[2])
 const LIMIT = Number.isInteger(argument) && argument > 0 ? argument : Infinity
+const DELAY = 3000
 
 const PINBOARD_API = 'api.pinboard.in'
 
@@ -48,7 +49,7 @@ pump(
         // Reset the posts counter when this stream begins sending
         // post data.
         postsFromLastStream = 0
-        callback(null, response)
+        setTimeout(() => callback(null, response), DELAY)
       })
       .end()
   }),
